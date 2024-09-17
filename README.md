@@ -1,2 +1,2 @@
 # Repositorio
-<em> Mi repositorio </em>
+<h1 align="center"> Mi repositorio </h1>
