@@ -8,7 +8,7 @@
 
 ##Índice
 
-*[Título e imagen de portada](#Título-e-imagen-de-portada)
+*[Título e imagen de portada](#Repositorio)
 
 *[Insignias](#insignias)
 
