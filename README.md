@@ -15,8 +15,6 @@
 
 *[Descripción del proyecto](#Descripción-del-proyecto)
 
-*[Estado del proyecto](#Estado-del-proyecto)
-
 *[Características de la aplicación y demostración](#Características-de-la-aplicación-y-demostración)
 
 *[Acceso al proyecto](#acceso-proyecto)
@@ -33,3 +31,7 @@
 
 # Descripción del proyecto
 esta es la descripción del proyecto
+
+## :hammer:Funcionalidades del proyecto
+
+- `Funcionalidad 1`: descripción de la funcionalidad 1- `Funcionalidad 2`: descripción de la funcionalidad 2- `Funcionalidad 2a`: descripción de la funcionalidade 2a relacionada con la funcionalidad 2- `Funcionalidad 3`: descripción de la funcionalidad 3
