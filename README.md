@@ -15,7 +15,7 @@
 
 *[Descripción del proyecto](#Descripción-del-proyecto)
 
-*[Características de la aplicación y demostración](#Características-de-la-aplicación-y-demostración)
+*[Características de la aplicación y demostración](#Funcionalidades-del-proyecto)
 
 *[Acceso al proyecto](#acceso-proyecto)
 
