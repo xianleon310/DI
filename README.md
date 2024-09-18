@@ -39,21 +39,21 @@ esta es la descripción del proyecto
 
 # Acceso al proyecto
 
-
+acceso al proyecto
 
 # Tecnologías utilizadas
 
-
+tu
 
 # Personas contribuyentes
 
-
+pc
 
 # Personas desarrolladoras del proyecto
 
-
+pdp
 
 # Licencia
 
-
+license
 
