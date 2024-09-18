@@ -17,17 +17,15 @@
 
 *[Características de la aplicación y demostración](#Funcionalidades-del-proyecto)
 
-*[Acceso al proyecto](#acceso-proyecto)
+*[Acceso al proyecto](#Acceso-al-proyecto)
 
-*[Tecnologías utilizadas](#tecnologías-utilizadas)
+*[Tecnologías utilizadas](#Tecnologías-utilizadas)
 
-*[Personas Contribuyentes](#personas-contribuyentes)
+*[Personas Contribuyentes](#Personas-contribuyentes)
 
-*[Personas-Desarrolladores del Proyecto](#personas-desarrolladores)
+*[Personas-Desarrolladores del Proyecto](#Personas-desarrolladoras-del-proyecto)
 
-* [Licencia](#licencia)
-
-*[Conclusión](#conclusión)
+* [Licencia](#Licencia)
 
 # Descripción del proyecto
 esta es la descripción del proyecto
@@ -38,3 +36,24 @@ esta es la descripción del proyecto
 - `Funcionalidad 2`: descripción de la funcionalidad 2
 - `Funcionalidad 2a`: descripción de la funcionalidade 2a relacionada con la funcionalidad 2
 - `Funcionalidad 3`: descripción de la funcionalidad 3
+
+# Acceso al proyecto
+
+
+
+# Tecnologías utilizadas
+
+
+
+# Personas contribuyentes
+
+
+
+# Personas desarrolladoras del proyecto
+
+
+
+# Licencia
+
+
+
