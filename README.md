@@ -7,25 +7,25 @@
    <img src="https://img.shields.io/badge/STATUS-EN%20DESAROLLO-green">
    </p>
 
-Índice
+<h1>Índice</h1>
 
-*[Título e imagen de portada](#Repositorio)
+* [Título e imagen de portada](#Repositorio)
 
-*[Insignias](#Repositorio)
+* [Insignias](#Repositorio)
 
-*[Descripción del proyecto](#Descripción-del-proyecto)
+* [Descripción del proyecto](#Descripción-del-proyecto)
 
-*[Características de la aplicación y demostración](#Funcionalidades-del-proyecto)
+* [Características de la aplicación y demostración](#Funcionalidades-del-proyecto)
 
-*[Acceso al proyecto](#Acceso-al-proyecto)
+* [Acceso al proyecto](#Acceso-al-proyecto)
 
-*[Tecnologías utilizadas](#Tecnologías-utilizadas)
+* [Tecnologías utilizadas](#Tecnologías-utilizadas)
 
-*[Personas Contribuyentes](#Personas-contribuyentes)
+* [Personas Contribuyentes](#Personas-contribuyentes)
 
-*[Personas-Desarrolladores del Proyecto](#Personas-desarrolladoras-del-proyecto)
+* [Personas-Desarrolladores del Proyecto](#Personas-desarrolladoras-del-proyecto)
 
-*[Licencia](#Licencia)
+* [Licencia](#Licencia)
 
 # Descripción del proyecto
 esta es la descripción del proyecto
