@@ -28,32 +28,37 @@
 * [Licencia](#Licencia)
 
 # Descripción del proyecto
-esta es la descripción del proyecto
+
+FoodieFinder es una aplicación web que conecta a amantes de la comida con restaurantes locales y recetas únicas. Los usuarios pueden buscar restaurantes según sus preferencias dietéticas, ver reseñas, y descubrir nuevas recetas basadas en los ingredientes que tienen en casa. La plataforma fomenta una comunidad de foodie donde se pueden compartir experiencias culinarias y consejos.
 
 # Funcionalidades del proyecto
 
-- `Funcionalidad 1`: descripción de la funcionalidad 1
-- `Funcionalidad 2`: descripción de la funcionalidad 2
-- `Funcionalidad 2a`: descripción de la funcionalidade 2a relacionada con la funcionalidad 2
-- `Funcionalidad 3`: descripción de la funcionalidad 3
+- `Búsqueda de restaurantes`: Filtrado por tipo de cocina, ubicación y preferencias dietéticas (vegano, sin gluten, etc.).
+- `Base de datos de recetas`: Usuarios pueden buscar recetas por ingredientes, tipo de plato, o nivel de dificultad.
+- `Reseñas y calificaciones`: Sistema para que los usuarios dejen reseñas y valoraciones de restaurantes y recetas.
+- `Comunidad foodie`: Espacio para que los usuarios compartan sus propias recetas y fotos de platos.
 
 # Acceso al proyecto
 
-acceso al proyecto
+- Repositorio: https://github.com/xianleon310/repositorioi/blob/main/README.md
 
 # Tecnologías utilizadas
 
-tu
+- Frontend: Vue.js, Tailwind CSS
+- Backend: Django, REST Framework
+- Base de datos: PostgreSQL
+- APIs: Yelp API para datos de restaurantes, Spoonacular API para recetas
+- Herramientas: Git, Heroku, Docker
 
 # Personas contribuyentes
 
-pc
+- Xián León Romero
 
 # Personas desarrolladoras del proyecto
 
-pdp
+- Xián León Romero
 
-# Licencia
+## Licencia
 
-license
+Este proyecto está licenciado bajo la [Licencia MIT](LICENSE). Consulta el archivo para más detalles.
 
