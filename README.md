@@ -11,11 +11,9 @@
 
 *[Título e imagen de portada](#Repositorio)
 
-*[Insignias](#insignias)
+*[Insignias](#Repositorio)
 
-*[Índice](#índice)
-
-*[Descripción del proyecto](#descripción-del-proyecto)
+*[Descripción del proyecto](#Descripción-del-proyecto)
 
 *[Estado del proyecto](#Estado-del-proyecto)
 
@@ -32,3 +30,6 @@
 * [Licencia](#licencia)
 
 *[Conclusión](#conclusión)
+
+# Descripción del proyecto
+esta es la descripción del proyecto
