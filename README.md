@@ -7,7 +7,7 @@
    <img src="https://img.shields.io/badge/STATUS-EN%20DESAROLLO-green">
    </p>
 
-##Índice
+Índice
 
 *[Título e imagen de portada](#Repositorio)
 
@@ -25,7 +25,7 @@
 
 *[Personas-Desarrolladores del Proyecto](#Personas-desarrolladoras-del-proyecto)
 
-* [Licencia](#Licencia)
+*[Licencia](#Licencia)
 
 # Descripción del proyecto
 esta es la descripción del proyecto
