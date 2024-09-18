@@ -32,7 +32,7 @@
 # Descripción del proyecto
 esta es la descripción del proyecto
 
-## :hammer:Funcionalidades del proyecto
+# Funcionalidades del proyecto
 
 - `Funcionalidad 1`: descripción de la funcionalidad 1
 - `Funcionalidad 2`: descripción de la funcionalidad 2
