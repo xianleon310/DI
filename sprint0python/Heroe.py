@@ -1,5 +1,7 @@
 class Heroe:
     def __init__(self, nombre):
+        #<-*Llega a esta clase y trae el nombre del teclado procedente del main y crea un objeto con el nombre y características predeterminadas
+        #(ataque,defensa,salud,salud_maxima)
         self.nombre = nombre
         self.ataque = 30
         self.defensa = 7
@@ -8,7 +10,7 @@ class Heroe:
 
     def atacar(self, enemigo):
         daño=self.ataque-enemigo.defensa
-        print("Héroe"+self.nombre+" ataca a "+enemigo.nombre+".")
+        print("Héroe "+self.nombre+" ataca a "+enemigo.nombre+".")
         if (daño>0):
             enemigo.salud = enemigo.salud - daño
             print("El enemigo" + enemigo.nombre + " ha recibido " + str(daño) + " puntos de daño.")
@@ -31,5 +33,3 @@ class Heroe:
 
     def esta_vivo(self):
         return self.salud > 0
-
-
