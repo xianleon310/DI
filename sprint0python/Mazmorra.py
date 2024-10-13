@@ -4,10 +4,24 @@ from Tesoro import Tesoro
 
 class Mazmorra:
     def __init__(self,heroe):
+        #<-*Llega a esta clase y trae el nombre del teclado procedente del main y crea un objeto con el nombre y dos objetos
+        #(monstruos,tesoro)
         self.heroe=heroe
+
+
+        #Guarda en la variable "monstruos" una lista de 3 objetos, por lo que irá a la clase "Monstruo()" a definir los valores
+        #CLASE MONSTRUO->*
         self.monstruos=[Monstruo(),Monstruo(), Monstruo()]
+
+
+        #Guarda en la variable "tesoro" los valores de la clase "Tesoro()"
+        #CLASE TESORO->*
         self.tesoro=Tesoro()
 
+    #<-*Se ejecuta el método, hay que recordar que en esta clase se han guardado los valores de las siguientes clases:
+    #   -El objeto "Heroe()"
+    #   -3 objetos "Monstruo()"
+    #   -1 objeto "Tesoro()"
     def jugar(self):
         i = 0
         print("Héroe " + self.heroe.nombre + " entra en la mazmorra.")
@@ -16,6 +30,7 @@ class Mazmorra:
             self.enfrentar_enemigo(self.monstruos[i])
             if not self.monstruos[i].esta_vivo():
                 i += 1
+                self.tesoro.encontrar_tesoro(self.heroe)
                 if i != len(self.monstruos):
                     print("Te has encontrado con un " + self.monstruos[i].nombre + ".")
         if self.heroe.esta_vivo():
