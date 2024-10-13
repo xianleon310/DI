@@ -1,9 +1,18 @@
 import random
 class Monstruo:
     def __init__(self):
+        # <-*Llega a esta clase y guarda en una lista unos nombres
         lista=["Jacobo","Diego","Iago","Ricardo","Arturo","Carlos","Rebeca","Marcos","Pablo"]
+
+
+        #Escoge un nombre random de dicha lista
         self.nombre=random.choice(lista)
+
+
+        #Y lo elimina, para que así, cuando vuelvan a llamar al método no vuelva a coincidir dicho nombre
         lista.remove(self.nombre)
+
+
         self.ataque=10
         self.defensa=4
         self.salud=100
