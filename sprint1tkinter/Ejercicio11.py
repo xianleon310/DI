@@ -5,7 +5,7 @@ def update_label(value):  # DEFINE UNA FUNCIÓN PARA ACTUALIZAR LA ETIQUETA
 
 # CREAR LA VENTANA PRINCIPAL
 root = tk.Tk()
-root.title("Barra Deslizante")  # ESTABLECE EL TÍTULO DE LA VENTANA
+root.title("Ejercicio 11")  # ESTABLECE EL TÍTULO DE LA VENTANA
 
 # CREAR UNA ETIQUETA PARA MOSTRAR EL VALOR
 label = tk.Label(root, text="Valor seleccionado: 0", font=("Arial", 14))  # INICIALIZA LA ETIQUETA CON UN VALOR INICIAL
