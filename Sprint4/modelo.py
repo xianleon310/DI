@@ -11,7 +11,7 @@ def __init__(self,difficulty,player_name,cell_size=100):
     self.images = {}  # Diccionario para almacenar las imágenes descargadas
     self.images_loaded = threading.Event()  # Evento para indicar que las imágenes están cargadas
     self.hidden_image = None
-    self.url_base = "https://github.com/tu_repo_de_imagenes/"
+    self.url_base = "https://github.com/xianleon310/DI/tree/main/Sprint4/Imagenes"
     self.listaimages=(
         "1200px-Bellibolt.png",
         "ai-generated-8584912_1280.jpg",
@@ -60,10 +60,27 @@ def _generate_board(self):
     random.shuffle(listacartas)
     self.cards = [listacartas[i:i + int(self.difficulty[0])] for i in range(0, len(listacartas), int(self.difficulty[0]))]
 
-def _load_images(self):
-    pass
 
-def load_images_thread(self):
-    pass
+def _load_images(self):
+    def load_images_thread():
+        self.hidden_image = self.descargar_imagen(self.url_base+"/hidden.png")
+
+        # Crea una lista de IDs únicos para evitar duplicados
+        unique_image_ids = []
+        for row in self.cards:
+            for image_id in row:
+                if image_id not in unique_image_ids:
+                    unique_image_ids.append(image_id)
+
+        # Descarga cada imagen única y la almacena en self.images
+        for image_id in unique_image_ids:
+            image_url = self.url_base+"/"+self.lista_images[image_id]
+            self.images[image_id] = self.descargar_imagen(image_url)
+
+        # Indica que todas las imágenes se han cargado
+        self.images_loaded.set()
+
+    # Inicia el hilo de descarga de imágenes
+    threading.Thread(target=load_images_thread, daemon=True).start()
 
 #self.cards=self.img_names[:num_pares]*2
