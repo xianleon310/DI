@@ -10,8 +10,19 @@ class GameView:
         self.update_move_count_callback=update_move_count_callback
         self.update_time_callback=update_time_callback
 
-    def create_board(self,model):
-        pass
+    def create_board(self, model):
+        self.board_frame = tk.Frame(self.window)
+        self.board_frame.pack()
+
+        for i, row in enumerate(model.cards):
+            row_frame = tk.Frame(self.board_frame)
+            row_frame.pack()
+            for j, image_id in enumerate(row):
+                # Crear cada botón con la imagen oculta
+                button = tk.Button(row_frame, image=model.hidden_image)
+                button.grid(row=i, column=j)
+                # Añade un comando para manejar los clics en cada carta
+                button.config(command=lambda pos=(i, j): self.on_card_click_callback(pos))
 
     def update_board(self,pos,image_id):
         pass
