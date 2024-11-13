@@ -11,7 +11,7 @@ class GameView:
         self.update_time_callback = update_time_callback
         self.game_model = game_model  # Agrega el modelo aquí
         self.buttons = []
-
+        self.is_active=True #PARA INDICAR SI A VENTA ESTÁ ACTIVA
 
     def create_board(self, model):
         self.board_frame = tk.Frame(self.window)
@@ -50,14 +50,18 @@ class GameView:
             self.move_label.pack()
 
     def update_time(self, time):
-        if hasattr(self, 'time_label'):
-            self.time_label.config(text=f"Tiempo: {time}s")
-        else:
-            self.time_label = tk.Label(self.window, text=f"Tiempo: {time}s")
-            self.time_label.pack()
+        if self.is_active:  # Solo actualizar si la vista está activa
+            if hasattr(self, 'time_label') and self.time_label.winfo_exists():
+                self.time_label.config(text=f"Tiempo: {time}s")
+            else:
+                # Verificar si la ventana sigue activa antes de intentar añadir el Label
+                if self.window.winfo_exists():
+                    self.time_label = tk.Label(self.window, text=f"Tiempo: {time}s")
+                    self.time_label.pack()
 
     def destroy(self):
-        pass
+        self.is_active = False  # Desactiva la vista antes de destruirla
+        self.window.destroy()
 
 
 class MainMenu:

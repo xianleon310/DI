@@ -1,5 +1,7 @@
 import threading
 import random
+from datetime import time
+
 from recursos import descargar_imagen
 
 class GameModel:
@@ -27,6 +29,7 @@ class GameModel:
         )
         self._generate_board()
         self._load_images()
+        self.start_time = None  # Variable para almacenar el tiempo de inicio
 
     def _generate_board(self):
         # Define numpares en función de la dificultad
@@ -34,7 +37,7 @@ class GameModel:
             numpares = 8  # 4 pares de cartas
             board_size = 4
         elif self.difficulty == "medio":
-            numpares = 16  # 8 pares de cartas
+            numpares = 18  # 8 pares de cartas
             board_size = 6
         elif self.difficulty == "dificil":
             numpares = 32  # 16 pares de cartas
@@ -69,3 +72,13 @@ class GameModel:
 
         # Inicia el hilo de descarga de imágenes
         threading.Thread(target=load_images_thread, daemon=True).start()
+
+    def start_timer(self):
+        """Inicia el temporizador cuando se hace el primer clic."""
+        self.start_time = time.time()  # Registra el tiempo de inicio
+
+    def get_time_elapsed(self):
+        """Devuelve el tiempo transcurrido desde que comenzó el juego."""
+        if self.start_time is None:
+            return 0
+        return int(time.time() - self.start_time)  # Devuelve el tiempo transcurrido en segundos

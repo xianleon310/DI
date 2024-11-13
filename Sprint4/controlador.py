@@ -83,6 +83,10 @@ class GameController:
         self.selected.append(position)
         image_id = self.game_model.cards[position[0]][position[1]]
 
+        # Inicia el temporizador si es el primer clic
+        if len(self.selected) == 1 and self.time_elapsed == 0:
+            self.root.after(1000, self.update_time)  # Llama a update_time cada segundo
+
         # Actualizamos el tablero para mostrar la carta seleccionada
         self.game_view.update_board(position, image_id, self.game_model)
 
@@ -102,6 +106,8 @@ class GameController:
         """Este método actualiza el temporizador."""
         self.time_elapsed += 1
         self.game_view.update_time(self.time_elapsed)
+        # Llama a la función después de un segundo para seguir actualizando el tiempo
+        self.root.after(1000, self.update_time)
 
     # Implementación del inicio del juego con callbacks
     def start_game(self):
