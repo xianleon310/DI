@@ -12,6 +12,7 @@ class GameController:
         self.main_menu = MainMenu(root, self.start_game_callback, self.show_stats_callback, self.quit_callback)
         self.move_count = 0  # Contador de movimientos inicializado en 0
         self.time_elapsed = 0  # Temporizador en segundos inicializado en 0
+        self.selected=[]
 
     def start_game_callback(self):
         #CREA UN OBJETO ASKSTRING "difficulty" EL CUAL ALMACENARÁ LO ESCRITO EN "parent",
@@ -75,19 +76,32 @@ class GameController:
 
     def on_card_click(self, position):
         """Este método maneja la acción de clic en una carta."""
-        # Obtén la ID de la imagen de la posición seleccionada del modelo.
+        if len(self.selected) == 2:
+            return  # Si ya hay dos cartas seleccionadas, no hacemos nada
+
+        # Si es la primera carta seleccionada, guardamos la posición y mostramos la carta.
+        self.selected.append(position)
         image_id = self.game_model.cards[position[0]][position[1]]
 
-        # Revela la carta seleccionada
-        self.game_view.update_board(position, image_id)
+        # Actualizamos el tablero para mostrar la carta seleccionada
+        self.game_view.update_board(position, image_id, self.game_model)
+
+        # Si es la segunda carta seleccionada, manejamos la comparación
+        if len(self.selected) == 2:
+            self.handle_card_selection()  # Verifica si las cartas coinciden o no
+
+            # Incrementamos el contador de movimientos y actualizamos la vista
+            self.update_move_count()
+
     def update_move_count(self):
         self.move_count += 1
         self.game_view.update_move_count(self.move_count)  # Llama a la vista para actualizar el display
 
     # Método para actualizar el tiempo transcurrido
     def update_time(self):
-        self.time_elapsed += 1  # Esto dependerá de cómo estés midiendo el tiempo
-        self.game_view.update_time(self.time_elapsed)  # Actualiza el tiempo en la interfaz
+        """Este método actualiza el temporizador."""
+        self.time_elapsed += 1
+        self.game_view.update_time(self.time_elapsed)
 
     # Implementación del inicio del juego con callbacks
     def start_game(self):
@@ -95,5 +109,22 @@ class GameController:
             on_card_click_callback=self.on_card_click,
             update_move_count_callback=self.update_move_count,
             update_time_callback=self.update_time,
+            game_model=self.game_model  # Pasa el modelo aquí
         )
         self.game_view.create_board(self.game_model)
+
+    def handle_card_selection(self):
+        """Este método maneja la lógica de comparación de las cartas seleccionadas."""
+        pos1, pos2 = self.selected
+        image_id1 = self.game_model.cards[pos1[0]][pos1[1]]
+        image_id2 = self.game_model.cards[pos2[0]][pos2[1]]
+
+        # Verificamos si las dos cartas son iguales
+        if image_id1 == image_id2:
+            # Si son iguales, las dejamos reveladas
+            self.selected = []  # Limpiar la selección aquí
+        else:
+            # Si no son iguales, las ocultamos nuevamente después de un retraso
+            self.root.after(1000, self.game_view.reset_cards, pos1, pos2)
+            self.selected = []  # Limpiar la selección después de la espera
+

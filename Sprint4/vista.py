@@ -3,38 +3,58 @@ import tkinter as tk
 from tkinter import simpledialog,Toplevel
 
 class GameView:
-    def __init__(self,on_card_click_callback,update_move_count_callback,update_time_callback):
-        self.window=Toplevel()
-        self.labels=[]
-        self.on_card_click_callback=on_card_click_callback
-        self.update_move_count_callback=update_move_count_callback
-        self.update_time_callback=update_time_callback
+    def __init__(self, on_card_click_callback, update_move_count_callback, update_time_callback, game_model):
+        self.window = Toplevel()
+        self.labels = []
+        self.on_card_click_callback = on_card_click_callback
+        self.update_move_count_callback = update_move_count_callback
+        self.update_time_callback = update_time_callback
+        self.game_model = game_model  # Agrega el modelo aquí
+        self.buttons = []
+
 
     def create_board(self, model):
         self.board_frame = tk.Frame(self.window)
         self.board_frame.pack()
-
         for i, row in enumerate(model.cards):
             row_frame = tk.Frame(self.board_frame)
             row_frame.pack()
+            row_buttons = []  # Esta lista almacenará los botones de esta fila
             for j, image_id in enumerate(row):
                 # Crear cada botón con la imagen oculta
                 button = tk.Button(row_frame, image=model.hidden_image)
                 button.grid(row=i, column=j)
-                # Añade un comando para manejar los clics en cada carta
+                # Añadir un comando para manejar los clics en cada carta
                 button.config(command=lambda pos=(i, j): self.on_card_click_callback(pos))
+                row_buttons.append(button)  # Añadir el botón a la fila
 
-    def update_board(self,pos,image_id):
-        pass
+            self.buttons.append(row_buttons)  # Añadir la fila de botones a self.buttons
 
-    def reset_cards(self,pos1,pos2):
-        pass
+    def update_board(self, pos, image_id, model):
+        i, j = pos
+        button = self.buttons[i][j]  # Acceder al botón correspondiente
+        button.config(image=model.images[image_id])  # Actualizar la imagen
+
+    def reset_cards(self, pos1, pos2):
+        """Ocultar las cartas después de un retraso si no coinciden"""
+        i1, j1 = pos1
+        i2, j2 = pos2
+        self.buttons[i1][j1].config(image=self.game_model.hidden_image)
+        self.buttons[i2][j2].config(image=self.game_model.hidden_image)
 
     def update_move_count(self,moves):
-        pass
+        if hasattr(self, 'move_label'):
+            self.move_label.config(text=f"Movimientos: {moves}")
+        else:
+            self.move_label = tk.Label(self.window, text=f"Movimientos: {moves}")
+            self.move_label.pack()
 
-    def update_time(self,time):
-        pass
+    def update_time(self, time):
+        if hasattr(self, 'time_label'):
+            self.time_label.config(text=f"Tiempo: {time}s")
+        else:
+            self.time_label = tk.Label(self.window, text=f"Tiempo: {time}s")
+            self.time_label.pack()
 
     def destroy(self):
         pass
