@@ -1,6 +1,7 @@
+import os
 import threading
 import random
-from datetime import time
+from datetime import time, datetime
 
 from recursos import descargar_imagen
 
@@ -10,8 +11,8 @@ class GameModel:
         self.player_name = player_name
         self.cell_size = cell_size
         self.cards = None
-        self.images = {}  # Diccionario para almacenar las imágenes descargadas
-        self.images_loaded = threading.Event()  # Evento para indicar que las imágenes están cargadas
+        self.images = {}  # DICCIONARIO PARA ALMACENAR LAS IMÁGENES DESCARGADAS
+        self.images_loaded = threading.Event()  # EVENTO PARA INDICAR QUE LAS IMÁGENES ESTÁN CARGADAS
         self.hidden_image = None
         self.url_base = "https://raw.githubusercontent.com/xianleon310/DI/refs/heads/main/Sprint4/Imagenes"
         self.listaimages = (
@@ -27,25 +28,25 @@ class GameModel:
             "squirtle-7400933_1280.jpg", "toy-5051773_1280.jpg", "toys-5353967_1280.jpg",
             "toys-5353969_1280.jpg", "white-male-1778182_1280.jpg"
         )
-        self._generate_board()
-        self._load_images()
-        self.start_time = None  # Variable para almacenar el tiempo de inicio
+        self._generate_board()  # GENERA EL TABLERO SEGÚN LA DIFICULTAD
+        self._load_images()  # CARGA LAS IMÁGENES PARA LAS CARTAS
+        self.start_time = None  # VARIABLE PARA ALMACENAR EL TIEMPO DE INICIO
 
     def _generate_board(self):
-        # Define numpares en función de la dificultad
+        # DEFINE NUMPARES EN FUNCIÓN DE LA DIFICULTAD
         if self.difficulty == "facil":
-            numpares = 8  # 4 pares de cartas
+            numpares = 8  # 4 PARES DE CARTAS
             board_size = 4
         elif self.difficulty == "medio":
-            numpares = 18  # 8 pares de cartas
+            numpares = 18  # 8 PARES DE CARTAS
             board_size = 6
         elif self.difficulty == "dificil":
-            numpares = 32  # 16 pares de cartas
+            numpares = 32  # 16 PARES DE CARTAS
             board_size = 8
         else:
-            raise ValueError(f"Dificultad '{self.difficulty}' no válida. No se puede generar el tablero.")
+            raise ValueError(f"DIFICULTAD '{self.difficulty}' NO VÁLIDA. NO SE PUEDE GENERAR EL TABLERO.")
 
-        # Genera la lista de cartas con los pares
+        # GENERA LA LISTA DE CARTAS CON LOS PARES
         listacartas = list(range(numpares)) * 2
         random.shuffle(listacartas)
 
@@ -55,30 +56,70 @@ class GameModel:
         def load_images_thread():
             self.hidden_image = descargar_imagen(self.url_base + "/hidden.png", 100)
 
-            # Crea una lista de IDs únicos para evitar duplicados
+            # CREA UNA LISTA DE IDS ÚNICOS PARA EVITAR DUPLICADOS
             unique_image_ids = []
             for row in self.cards:
                 for image_id in row:
                     if image_id not in unique_image_ids:
                         unique_image_ids.append(image_id)
 
-            # Descarga cada imagen única y la almacena en self.images
+            # DESCARGA CADA IMAGEN ÚNICA Y LA ALMACENA EN self.images
             for image_id in unique_image_ids:
                 image_url = self.url_base + "/" + self.listaimages[image_id]
                 self.images[image_id] = descargar_imagen(image_url, 100)
 
-            # Indica que todas las imágenes se han cargado
+            # INDICA QUE TODAS LAS IMÁGENES SE HAN CARGADO
             self.images_loaded.set()
 
-        # Inicia el hilo de descarga de imágenes
+        # INICIA EL HILO DE DESCARGA DE IMÁGENES
         threading.Thread(target=load_images_thread, daemon=True).start()
 
     def start_timer(self):
-        """Inicia el temporizador cuando se hace el primer clic."""
-        self.start_time = time.time()  # Registra el tiempo de inicio
+        # INICIA EL TEMPORIZADOR CUANDO SE HACE EL PRIMER CLIC
+        self.start_time = time.time()  # REGISTRA EL TIEMPO DE INICIO
 
     def get_time_elapsed(self):
-        """Devuelve el tiempo transcurrido desde que comenzó el juego."""
+        # DEVUELVE EL TIEMPO TRANSCURRIDO DESDE QUE COMENZÓ EL JUEGO
         if self.start_time is None:
             return 0
-        return int(time.time() - self.start_time)  # Devuelve el tiempo transcurrido en segundos
+        return int(time.time() - self.start_time)  # DEVUELVE EL TIEMPO TRANSCURRIDO EN SEGUNDOS
+
+    def save_score(self, nombre, dificultad, movimientos):
+        # GUARDA LA PUNTUACIÓN EN EL ARCHIVO RANKING.TXT
+        fecha = datetime.now().strftime("%Y-%m-%d")
+        new_score = f"{nombre},{dificultad},{movimientos},{fecha}\n"
+        if not os.path.exists("ranking.txt"):
+            open("ranking.txt", "w").close()
+
+        with open("ranking.txt", "a") as file:
+            file.write(new_score)
+
+        # ORDENAR Y CONSERVAR LAS MEJORES TRES PUNTUACIONES
+        self._ordenar_scores(dificultad)
+
+    def _ordenar_scores(self, dificultad):
+        # ORDENAR Y CONSERVAR LAS TRES MEJORES PUNTUACIONES DE CADA DIFICULTAD EN RANKING.TXT
+        with open("ranking.txt", "r") as file:
+            scores = file.readlines()
+
+        scores = [line.strip().split(",") for line in scores if line]
+        scores = sorted(
+            [score for score in scores if score[1] == dificultad],
+            key=lambda x: int(x[2])
+        )[:3]
+
+        # ESCRIBIR SOLO LAS TRES MEJORES PUNTUACIONES DE CADA DIFICULTAD
+        with open("ranking.txt", "w") as file:
+            for score in scores:
+                file.write(",".join(score) + "\n")
+
+    def load_scores(self):
+        # CARGA LAS PUNTUACIONES DESDE RANKING.TXT Y DEVUELVE UN DICCIONARIO POR DIFICULTAD
+        scores_by_difficulty = {"facil": [], "medio": [], "dificil": []}
+        if os.path.exists("ranking.txt"):
+            with open("ranking.txt", "r") as file:
+                for line in file:
+                    nombre, dificultad, movimientos, fecha = line.strip().split(",")
+                    score = {"nombre": nombre, "movimientos": int(movimientos), "fecha": fecha}
+                    scores_by_difficulty[dificultad].append(score)
+        return scores_by_difficulty

@@ -1,72 +1,77 @@
 import tkinter as tk
 from tkinter import messagebox, simpledialog
-from vista import MainMenu,GameView
+from vista import MainMenu, GameView
 from modelo import GameModel
 
 class GameController:
-    #LLEGAMOS AL ARCHIVO
+    # LLEGAMOS AL ARCHIVO
     def __init__(self, root):
-        #GUARDAMOS EL "root" CREADO EN EL MAIN EN ESTA CLASE
+        # GUARDAMOS EL "ROOT" CREADO EN EL MAIN EN ESTA CLASE
         self.root = root
-        #CREAMOS UNA INSTANCIA "main_menu" LLENDO A LA CLASE "MainMenu" LLEVANDO DE ESTA CLASE 3 MÉTODOS
+        # CREAMOS UNA INSTANCIA "MAIN_MENU" LLAMANDO A LA CLASE "MAINMENU" Y PASANDOLE 3 MÉTODOS COMO PARÁMETROS
         self.main_menu = MainMenu(root, self.start_game_callback, self.show_stats_callback, self.quit_callback)
-        self.move_count = 0  # Contador de movimientos inicializado en 0
-        self.time_elapsed = 0  # Temporizador en segundos inicializado en 0
-        self.selected=[]
+        self.move_count = 0  # CONTADOR DE MOVIMIENTOS INICIALIZADO EN 0
+        self.time_elapsed = 0  # TEMPORIZADOR EN SEGUNDOS INICIALIZADO EN 0
+        self.selected = []  # LISTA PARA ALMACENAR LAS CARTAS SELECCIONADAS
 
     def start_game_callback(self):
-        #CREA UN OBJETO ASKSTRING "difficulty" EL CUAL ALMACENARÁ LO ESCRITO EN "parent",
-        self.difficulty=simpledialog.askstring(
-            #CON TÍTULO "seleccionar dificulatad",
+        # CREA UN OBJETO ASKSTRING "DIFFICULTY" EL CUAL ALMACENARÁ LO ESCRITO EN "PARENT"
+        self.difficulty = simpledialog.askstring(
+            # CON TÍTULO "SELECCIONAR DIFICULTAD"
             "Seleccionar dificultad",
-            # CON CUERPO "Elige la dificultad",
+            # CON CUERPO "ELIGE LA DIFICULTAD"
             "Elige la dificultad(facil,media,dificil)",
             # Y CON UN CUADRO DE TEXTO PARA ESCRIBIR EN ÉL
             parent=self.root
-            )
-        #SI LAS PALABRAS "facil","medio" O "dificil" ESTÁN EN EL OBJETO CREADO
+        )
+        # SI LAS PALABRAS "FACIL", "MEDIO" O "DIFICIL" ESTÁN EN EL OBJETO CREADO
         if self.difficulty in ["facil", "medio", "dificil"]:
-            #GUARDA EN LA VARIABLE "self.player_name" EL VALOR DEL MÉTODO "ask_player_name" ALMACENADA EN VISTA (ESTÁ DECLARADA COMO "main_menu" PORQUE YA SE HA INSTANCIADO EN EL CONSTRUCTOR)
+            # GUARDA EN LA VARIABLE "SELF.PLAYER_NAME" EL VALOR DEL MÉTODO "ASK_PLAYER_NAME" ALMACENADA EN VISTA
             self.player_name = self.main_menu.ask_player_name()
-            #SI SE HA ESCRITO EL NOMBRE
+            # SI SE HA ESCRITO EL NOMBRE
             if self.player_name:
                 # MENSAJE CON EL NOMBRE Y DIFICULTAD QUE HAS ESCOGIDO
-                messagebox.showinfo("Inicio del Juego", "Dificultad: "+self.difficulty+"\n"+"Jugador:"+ self.player_name)
+                messagebox.showinfo("Inicio del Juego", "Dificultad: " + self.difficulty + "\n" + "Jugador:" + self.player_name)
 
-                # Crea el modelo del juego con dificultad y nombre
+                # CREA EL MODELO DEL JUEGO CON DIFICULTAD Y NOMBRE
                 self.game_model = GameModel(self.difficulty, self.player_name)
 
-                # Muestra ventana de carga mientras se descargan las imágenes
+                # MUESTRA VENTANA DE CARGA MIENTRAS SE DESCARGAN LAS IMÁGENES
                 self.show_loading_window("Cargando imágenes, por favor espera...")
 
-                # Inicia la verificación periódica de descarga de imágenes
+                # INICIA LA VERIFICACIÓN PERIÓDICA DE DESCARGA DE IMÁGENES
                 self.check_images_loaded()
-
-
-            #SI NO SE HA ESCRITO EL NOMBRE SALTA UN MENSAJE DE ERROR
+            # SI NO SE HA ESCRITO EL NOMBRE, SALTA UN MENSAJE DE ERROR
             else:
                 messagebox.showwarning("Advertencia", "Debe ingresar un nombre para jugar.")
-        #SI LAS PALABRAS "facil","medio" O "dificil" NO ESTÁN EN EL OBJETO CREADO
+        # SI LAS PALABRAS "FACIL", "MEDIO" O "DIFICIL" NO ESTÁN EN EL OBJETO CREADO
         else:
-            #MENSAJE DE ERROR
+            # MENSAJE DE ERROR
             messagebox.showwarning("Advertencia", "Dificultad no válida.")
 
     def show_stats_callback(self):
-        #MENSAJE
-        messagebox.showinfo("Acción", "Has seleccionado 'Estadísticas'")
+        #MUESTRA LAS ESTADÍSTICAS DE PUNTUACIÓN.
+        scores = self.game_model.load_scores()
+        formatted_scores = "\n".join(
+            [f"{dificultad}:\n" + "\n".join([f"{score['nombre']} - {score['movimientos']} movimientos - {score['fecha']}"
+                                            for score in scores[dificultad]]) for dificultad in scores]
+        )
+        messagebox.showinfo("Estadísticas", formatted_scores)
 
     def quit_callback(self):
-        #QUITA LA PÁGINA
+        # QUITA LA PÁGINA
         self.root.quit()
 
     def show_loading_window(self, message):
+        # MUESTRA UNA VENTANA MODAL DE CARGA
         self.loading_window = tk.Toplevel(self.root)
         self.loading_window.title("Cargando")
         tk.Label(self.loading_window, text=message).pack(pady=20)
         self.loading_window.transient(self.root)
-        self.loading_window.grab_set()  # Hace la ventana de carga modal
+        self.loading_window.grab_set()  # HACE QUE LA VENTANA DE CARGA SEA MODAL
 
     def check_images_loaded(self):
+        # VERIFICA SI LAS IMÁGENES HAN SIDO CARGADAS
         if self.game_model.images_loaded.is_set():
             if self.loading_window:
                 self.loading_window.destroy()
@@ -75,62 +80,83 @@ class GameController:
             self.root.after(100, self.check_images_loaded)
 
     def on_card_click(self, position):
-        """Este método maneja la acción de clic en una carta."""
+        #ESTE MÉTODO MANEJA LA ACCIÓN DE CLIC EN UNA CARTA.
         if len(self.selected) == 2:
-            return  # Si ya hay dos cartas seleccionadas, no hacemos nada
+            return  # SI YA HAY DOS CARTAS SELECCIONADAS, NO HACEMOS NADA
 
-        # Si es la primera carta seleccionada, guardamos la posición y mostramos la carta.
+        # SI ES LA PRIMERA CARTA SELECCIONADA, GUARDAMOS LA POSICIÓN Y MOSTRAMOS LA CARTA.
         self.selected.append(position)
         image_id = self.game_model.cards[position[0]][position[1]]
 
-        # Inicia el temporizador si es el primer clic
+        # INICIA EL TEMPORIZADOR SI ES EL PRIMER CLIC
         if len(self.selected) == 1 and self.time_elapsed == 0:
-            self.root.after(1000, self.update_time)  # Llama a update_time cada segundo
+            self.root.after(1000, self.update_time)  # LLAMA A update_time CADA SEGUNDO
 
-        # Actualizamos el tablero para mostrar la carta seleccionada
+        # ACTUALIZAMOS EL TABLERO PARA MOSTRAR LA CARTA SELECCIONADA
         self.game_view.update_board(position, image_id, self.game_model)
 
-        # Si es la segunda carta seleccionada, manejamos la comparación
+        # SI ES LA SEGUNDA CARTA SELECCIONADA, MANEJAMOS LA COMPARACIÓN
         if len(self.selected) == 2:
-            self.handle_card_selection()  # Verifica si las cartas coinciden o no
+            self.handle_card_selection()  # VERIFICA SI LAS CARTAS COINCIDEN O NO
 
-            # Incrementamos el contador de movimientos y actualizamos la vista
+            # INCREMENTAMOS EL CONTADOR DE MOVIMIENTOS Y ACTUALIZAMOS LA VISTA
             self.update_move_count()
 
     def update_move_count(self):
+        # INCREMENTA EL CONTADOR DE MOVIMIENTOS Y ACTUALIZA LA VISTA
         self.move_count += 1
-        self.game_view.update_move_count(self.move_count)  # Llama a la vista para actualizar el display
+        if self.game_view and self.game_view.is_active:
+            self.game_view.update_move_count(self.move_count)
 
-    # Método para actualizar el tiempo transcurrido
+    # MÉTODO PARA ACTUALIZAR EL TIEMPO TRANSCURRIDO
     def update_time(self):
-        """Este método actualiza el temporizador."""
+        #ESTE MÉTODO ACTUALIZA EL TEMPORIZADOR.
         self.time_elapsed += 1
-        self.game_view.update_time(self.time_elapsed)
-        # Llama a la función después de un segundo para seguir actualizando el tiempo
-        self.root.after(1000, self.update_time)
+        if self.game_view and self.game_view.is_active:
+            self.game_view.update_time(self.time_elapsed)
+            self.root.after(1000, self.update_time)
 
-    # Implementación del inicio del juego con callbacks
+    # IMPLEMENTACIÓN DEL INICIO DEL JUEGO CON CALLBACKS
     def start_game(self):
+        # CREA UNA INSTANCIA DE GameView Y PASA LOS CALLBACKS Y EL MODELO
         self.game_view = GameView(
             on_card_click_callback=self.on_card_click,
             update_move_count_callback=self.update_move_count,
             update_time_callback=self.update_time,
-            game_model=self.game_model  # Pasa el modelo aquí
+            game_model=self.game_model  # PASA EL MODELO AQUÍ
         )
         self.game_view.create_board(self.game_model)
 
     def handle_card_selection(self):
-        """Este método maneja la lógica de comparación de las cartas seleccionadas."""
+        # MANEJA LA SELECCIÓN DE DOS CARTAS
         pos1, pos2 = self.selected
         image_id1 = self.game_model.cards[pos1[0]][pos1[1]]
         image_id2 = self.game_model.cards[pos2[0]][pos2[1]]
-
-        # Verificamos si las dos cartas son iguales
         if image_id1 == image_id2:
-            # Si son iguales, las dejamos reveladas
-            self.selected = []  # Limpiar la selección aquí
+            self.selected = []
+            self.game_model.cards[pos1[0]][pos1[1]] = None  # MARCA LAS CARTAS COMO COMPLETADAS
+            self.game_model.cards[pos2[0]][pos2[1]] = None
+            self.check_game_complete()  # VERIFICA SI EL JUEGO ESTÁ COMPLETO
         else:
-            # Si no son iguales, las ocultamos nuevamente después de un retraso
             self.root.after(1000, self.game_view.reset_cards, pos1, pos2)
-            self.selected = []  # Limpiar la selección después de la espera
+            self.selected = []
 
+    def check_game_complete(self):
+        #VERIFICA SI EL JUGADOR HA ENCONTRADO TODOS LOS PARES Y COMPLETA EL JUEGO.
+        if all(card is None for row in self.game_model.cards for card in row):
+            # SI TODAS LAS CARTAS ESTÁN REVELADAS (NONE), EL JUEGO HA TERMINADO
+            messagebox.showinfo("¡Felicidades!", f"Juego completado en {self.move_count} movimientos")
+            self.save_score()
+            self.return_to_main_menu()  # REGRESA AL MENÚ PRINCIPAL
+
+    def save_score(self):
+        #GUARDA LA PUNTUACIÓN DEL JUGADOR EN RANKING.TXT
+        self.game_model.save_score(self.player_name, self.difficulty, self.move_count)
+
+    def return_to_main_menu(self):
+        #REGRESA AL MENÚ PRINCIPAL
+        if self.game_view:
+            self.game_view.destroy()  # DESTRUYE LA VISTA DEL JUEGO ACTUAL
+
+        if not self.main_menu:  # SOLO CREA UN NUEVO MENÚ SI NO EXISTE
+            self.main_menu = MainMenu(self.root, self.start_game_callback, self.show_stats_callback, self.quit_callback)
