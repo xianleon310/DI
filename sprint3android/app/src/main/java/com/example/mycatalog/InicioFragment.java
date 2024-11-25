@@ -9,9 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-
-import com.squareup.picasso.Picasso;
 
 public class InicioFragment extends Fragment {
 
@@ -38,16 +35,10 @@ public class InicioFragment extends Fragment {
         // Configuración del botón para navegar al detalle
         Button botonNavegacion = view.findViewById(R.id.btn_navigate_to_detail);
         botonNavegacion.setOnClickListener(v -> {
+            // Navegar a DetailActivity
             Intent intent = new Intent(getActivity(), DetailActivity.class);
             startActivity(intent);
         });
-
-        // Configuración de la imagen usando Picasso
-        ImageView imageView = view.findViewById(R.id.imagen);
-        Picasso.get()
-                .load(R.drawable.pikachu) // Usa el recurso drawable de Pikachu
-                .transform(new CircleTransform()) // Si tienes una transformación circular
-                .into(imageView);
 
         return view;
     }
