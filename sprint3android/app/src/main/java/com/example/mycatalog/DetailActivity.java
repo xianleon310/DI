@@ -1,12 +1,15 @@
 package com.example.mycatalog;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -20,5 +23,10 @@ public class DetailActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        ImageView imageView = findViewById(R.id.imagen);
+        Picasso.get()
+                .load(R.drawable.pikachu)
+                .transform(new CircleTransform())
+                .into(imageView);
     }
 }
