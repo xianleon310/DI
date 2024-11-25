@@ -3,10 +3,11 @@
     <item
         android:id="@+id/page_inicio"
         android:icon="@drawable/icon_inicio"
-        android:title="Inicio"/>
+        android:title="Inicio" />
+
     <item
-        android:id="@+id/page_favorito"
+        android:id="@+id/page_favoritos"
         android:icon="@drawable/icon_favorito"
-        android:title="Sobre"/>
+        android:title="Favoritos" />
 
 </menu>

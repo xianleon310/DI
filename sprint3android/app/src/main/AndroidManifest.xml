@@ -12,21 +12,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyCatalog"
         tools:targetApi="31">
+
+        <!-- MainActivity como actividad principal -->
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".DetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CatalogActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- DetailActivity -->
+        <activity
+            android:name=".DetailActivity"
+            android:exported="false" />
+
+        <!-- CatalogActivity como secundaria -->
+        <activity
+            android:name=".CatalogActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
