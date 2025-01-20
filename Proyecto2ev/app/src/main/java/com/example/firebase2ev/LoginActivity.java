@@ -22,12 +22,17 @@ public class LoginActivity extends AppCompatActivity {
 
         // Botón de inicio de sesión
         findViewById(R.id.loginButton).setOnClickListener(v -> loginUser());
+
+        findViewById(R.id.registerButton).setOnClickListener(v -> registerUser());
     }
 
     private void loginUser() {
         String email = ((EditText) findViewById(R.id.emailEditText)).getText().toString();
         String password = ((EditText) findViewById(R.id.passwordEditText)).getText().toString();
-
+        if (email.isEmpty() || password.isEmpty()){
+            Toast.makeText(LoginActivity.this, "Error en autenticación.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
@@ -39,5 +44,10 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Error en autenticación.", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+    private void registerUser(){
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

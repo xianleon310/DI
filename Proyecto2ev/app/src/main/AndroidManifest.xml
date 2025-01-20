@@ -8,11 +8,10 @@
         android:label="Firebase2EV"
         android:theme="@style/Theme.Firebase2EV">
 
-
         <activity
-            android:name=".MainActivity"
-            android:label="Main Activity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name=".LoginActivity"
+            android:label="Login"
+            android:theme="@style/Theme.Firebase2EV"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,15 +19,10 @@
             </intent-filter>
         </activity>
 
-
-        <activity
-            android:name=".LoginActivity"
-            android:label="Login"
-            android:exported="false" />
-
         <activity
             android:name=".RegisterActivity"
             android:label="Register"
+            android:parentActivityName=".LoginActivity"
             android:exported="false" />
 
         <activity

@@ -36,7 +36,10 @@ public class RegisterActivity extends AppCompatActivity {
         String confirmPassword = ((EditText) findViewById(R.id.confirmPasswordEditText)).getText().toString();
         String phone = ((EditText) findViewById(R.id.phoneEditText)).getText().toString();
         String address = ((EditText) findViewById(R.id.addressEditText)).getText().toString();
-
+        if (fullName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || phone.isEmpty() || address.isEmpty()){
+            Toast.makeText(this,"Cubre todos los campos.",Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (!password.equals(confirmPassword)) {
             Toast.makeText(this, "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show();
             return;
@@ -70,5 +73,13 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "Error en el registro: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }
