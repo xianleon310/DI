@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.firebase2ev"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.firebase2ev"
@@ -34,6 +34,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     buildFeatures {
+        dataBinding=true
         compose = true
     }
     packaging {
@@ -44,6 +45,10 @@ android {
 }
 
 dependencies {
+    implementation (libs.androidx.lifecycle.extensions)
+    implementation (libs.androidx.lifecycle.livedata.ktx)
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.recyclerview)
     implementation (libs.glide)
     annotationProcessor (libs.compiler)
     implementation(platform(libs.firebase.bom))

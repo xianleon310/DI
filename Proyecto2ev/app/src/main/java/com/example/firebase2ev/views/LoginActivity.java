@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.widget.Button;
 
+import com.example.firebase2ev.views.DashboardActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;

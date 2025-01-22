@@ -2,51 +2,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="16dp">
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        tools:ignore="HardcodedText" />
 
-    <ImageView
-        android:id="@+id/imagen"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_below="@id/logoutButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"/>
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:layout_gravity="end"
+            android:layout_margin="16dp" />
 
-    <TextView
-        android:id="@+id/titulo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imagen"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
+        <!-- Videojuego 1 -->
+        <ImageView
+            android:id="@+id/imagen1"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
 
-    <TextView
-        android:id="@+id/descripcion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/titulo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:textSize="16sp"
-        android:gravity="center"/>
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/titulo1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="64dp"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <!-- Videojuego 2 -->
+        <ImageView
+            android:id="@+id/imagen2"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
+
+        <TextView
+            android:id="@+id/titulo2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="64dp"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <!-- Videojuego 3 -->
+        <ImageView
+            android:id="@+id/imagen3"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
+
+        <TextView
+            android:id="@+id/titulo3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="64dp"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <!-- Videojuego 4 -->
+        <ImageView
+            android:id="@+id/imagen4"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
+
+        <TextView
+            android:id="@+id/titulo4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="64dp"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
 </ScrollView>
