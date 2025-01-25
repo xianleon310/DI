@@ -11,7 +11,7 @@
             android:name=".views.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".views.LoginActivity"
             android:exported="true"
             android:label="Login"
             android:theme="@style/Theme.Firebase2EV">
@@ -22,10 +22,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".views.RegisterActivity"
             android:exported="false"
             android:label="Register"
-            android:parentActivityName=".LoginActivity" />
+            android:parentActivityName=".views.LoginActivity" />
         <activity
             android:name=".views.DashboardActivity"
             android:exported="false"

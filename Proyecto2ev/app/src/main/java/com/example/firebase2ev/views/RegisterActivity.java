@@ -1,4 +1,4 @@
-package com.example.firebase2ev;
+package com.example.firebase2ev.views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,8 +6,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.firebase2ev.views.DashboardActivity;
+import com.example.firebase2ev.R;
+import com.example.firebase2ev.viewmodels.RegisterViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -16,22 +18,66 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-    private DatabaseReference database;
+    //ANTES
+    //private FirebaseAuth mAuth;
+    //private DatabaseReference database;
+
+    //AHORA
+    private RegisterViewModel viewModel;
+    private EditText fullNameEdit, emailEdit, passwordEdit, confirmPasswordEdit, phoneEdit, addressEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance().getReference();
+        //ANTES
+        //mAuth = FirebaseAuth.getInstance();
+        //database = FirebaseDatabase.getInstance().getReference();
+
+        //AHORA
+        viewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
+        initializeViews();
+        setupObservers();
+
 
         findViewById(R.id.registerButton).setOnClickListener(v -> registerUser());
     }
+    //NOVO
+    private void initializeViews() {
+        fullNameEdit = findViewById(R.id.fullNameEditText);
+        emailEdit = findViewById(R.id.emailEditText);
+        passwordEdit = findViewById(R.id.passwordEditText);
+        confirmPasswordEdit = findViewById(R.id.confirmPasswordEditText);
+        phoneEdit = findViewById(R.id.phoneEditText);
+        addressEdit = findViewById(R.id.addressEditText);
+    }
+    //NOVO
+    private void setupObservers() {
+        viewModel.getErrorMessage().observe(this, error ->
+                Toast.makeText(this, error, Toast.LENGTH_SHORT).show());
+
+        viewModel.getIsRegistered().observe(this, isRegistered -> {
+            if (isRegistered) {
+                startActivity(new Intent(this, DashboardActivity.class));
+                finish();
+            }
+        });
+    }
 
     private void registerUser() {
-        String fullName = ((EditText) findViewById(R.id.fullNameEditText)).getText().toString();
+        viewModel.register(
+                fullNameEdit.getText().toString(),
+                emailEdit.getText().toString(),
+                passwordEdit.getText().toString(),
+                confirmPasswordEdit.getText().toString(),
+                phoneEdit.getText().toString(),
+                addressEdit.getText().toString()
+        );
+    }
+    }
+        //ANTES
+        /*String fullName = ((EditText) findViewById(R.id.fullNameEditText)).getText().toString();
         String email = ((EditText) findViewById(R.id.emailEditText)).getText().toString();
         String password = ((EditText) findViewById(R.id.passwordEditText)).getText().toString();
         String confirmPassword = ((EditText) findViewById(R.id.confirmPasswordEditText)).getText().toString();
@@ -74,13 +120,4 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "Error en el registro: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
-    }
-}
+    }*/

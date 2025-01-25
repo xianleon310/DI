@@ -1,6 +1,5 @@
 package com.example.firebase2ev.views;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -77,7 +76,7 @@ public class DashboardActivity extends AppCompatActivity {
         // Configurar el botón de Logout
         logoutButton.setOnClickListener(v -> {
             mAuth.signOut();
-            Intent intent = new Intent(DashboardActivity.this, com.example.firebase2ev.LoginActivity.class);
+            Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();

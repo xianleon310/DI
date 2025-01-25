@@ -1,11 +1,11 @@
-package com.example.firebase2ev;
+package com.example.firebase2ev.views;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.firebase2ev.views.DashboardActivity;
+import com.example.firebase2ev.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
