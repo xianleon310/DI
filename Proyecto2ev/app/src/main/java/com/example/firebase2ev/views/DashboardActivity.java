@@ -37,8 +37,9 @@ public class DashboardActivity extends AppCompatActivity {
 
             int index = i;
             titleTexts[i].setOnClickListener(v -> {
-                viewModel.selectGame("videojuego_" + (index + 1));
-                startActivity(new Intent(this, DetailActivity.class));
+                Intent intent = new Intent(this, DetailActivity.class);
+                intent.putExtra("videojuego_", "videojuego_" + (index + 1));
+                startActivity(intent);
             });
         }
     }
