@@ -45,7 +45,7 @@ public class UserRepository {
     public void logout() {
         mAuth.signOut();
     }
-    
+
     // Método para añadir a favoritos
     public Task<Void> addToFavorites(String gameId) {
         String userId = mAuth.getCurrentUser().getUid();
