@@ -44,7 +44,7 @@ public class DetailActivity extends AppCompatActivity {
         viewModel.getSelectedGame().observe(this, game -> {
             titleText.setText(game.getName());
             descText.setText(game.getDesc());
-
+            imageView.setContentDescription("Imagen detallada del juego " + game.getName());
             Glide.with(this)
                     .load(game.getUrl())
                     .fitCenter()
