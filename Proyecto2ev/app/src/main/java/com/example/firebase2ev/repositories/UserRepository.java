@@ -3,6 +3,7 @@ package com.example.firebase2ev.repositories;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -43,5 +44,35 @@ public class UserRepository {
 
     public void logout() {
         mAuth.signOut();
+    }
+    
+    // Método para añadir a favoritos
+    public Task<Void> addToFavorites(String gameId) {
+        String userId = mAuth.getCurrentUser().getUid();
+        return database.child("users")
+                .child(userId)
+                .child("favoritos")
+                .child(gameId)
+                .setValue(true);
+    }
+
+    // Método para eliminar de favoritos
+    public Task<Void> removeFromFavorites(String gameId) {
+        String userId = mAuth.getCurrentUser().getUid();
+        return database.child("users")
+                .child(userId)
+                .child("favoritos")
+                .child(gameId)
+                .removeValue();
+    }
+
+    // Método para verificar si un juego está en favoritos
+    public Task<DataSnapshot> isFavorite(String gameId) {
+        String userId = mAuth.getCurrentUser().getUid();
+        return database.child("users")
+                .child(userId)
+                .child("favoritos")
+                .child(gameId)
+                .get();
     }
 }
