@@ -8,6 +8,9 @@
         android:label="Firebase2EV"
         android:theme="@style/Theme.Firebase2EV">
         <activity
+            android:name=".views.FavouritesActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.DetailActivity"
             android:exported="false" />
         <activity

@@ -42,8 +42,12 @@ public class DashboardActivity extends AppCompatActivity implements GameAdapter.
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             finish();
         });
-    }
 
+        // Configurar botón de favoritos
+        findViewById(R.id.favoritesButton).setOnClickListener(v -> {
+            startActivity(new Intent(this, FavouritesActivity.class));
+        });
+    }
     @Override
     public void onGameClick(Game game) {
         Intent intent = new Intent(this, DetailActivity.class);

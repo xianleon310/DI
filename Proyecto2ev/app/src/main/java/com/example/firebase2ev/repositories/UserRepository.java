@@ -1,13 +1,23 @@
 package com.example.firebase2ev.repositories;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserRepository {
@@ -74,5 +84,31 @@ public class UserRepository {
                 .child("favoritos")
                 .child(gameId)
                 .get();
+    }
+
+    public LiveData<List<String>> getFavoriteGames() {
+        MutableLiveData<List<String>> favoritesLiveData = new MutableLiveData<>();
+        String userId = mAuth.getCurrentUser().getUid();
+
+        database.child("users")
+                .child(userId)
+                .child("favoritos")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        List<String> favoriteIds = new ArrayList<>();
+                        for (DataSnapshot gameSnapshot : snapshot.getChildren()) {
+                            favoriteIds.add(gameSnapshot.getKey());
+                        }
+                        favoritesLiveData.setValue(favoriteIds);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("UserRepository", "Error getting favorites", error.toException());
+                    }
+                });
+
+        return favoritesLiveData;
     }
 }
