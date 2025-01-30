@@ -1,12 +1,14 @@
 package com.example.firebase2ev.views;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Switch;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.firebase2ev.R;
 import com.example.firebase2ev.adapters.GameAdapter;
 import com.example.firebase2ev.models.Game;
@@ -16,9 +18,20 @@ import com.example.firebase2ev.viewmodels.GameViewModel;
 public class DashboardActivity extends AppCompatActivity implements GameAdapter.OnGameClickListener {
     private GameViewModel viewModel;
     private GameAdapter adapter;
+    private Switch darkModeSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Obtener preferencia de Dark Mode antes de cargar la vista
+        SharedPreferences sharedPref = getSharedPreferences("AppConfig", MODE_PRIVATE);
+        boolean darkMode = sharedPref.getBoolean("darkMode", false);
+
+        if (darkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
@@ -47,7 +60,26 @@ public class DashboardActivity extends AppCompatActivity implements GameAdapter.
         findViewById(R.id.favoritesButton).setOnClickListener(v -> {
             startActivity(new Intent(this, FavouritesActivity.class));
         });
+
+        // Configurar Switch para Dark Mode
+        darkModeSwitch = findViewById(R.id.darkModeSwitch);
+        darkModeSwitch.setChecked(darkMode);
+
+        darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean("darkMode", isChecked);
+            editor.apply();
+
+            // Cambia el tema y recarga la actividad
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+            recreate(); // Recargar la actividad para aplicar el cambio de tema
+        });
     }
+
     @Override
     public void onGameClick(Game game) {
         Intent intent = new Intent(this, DetailActivity.class);

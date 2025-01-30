@@ -148,4 +148,8 @@
     <color name="md_theme_surfaceContainer_highContrast">#DFE3E7</color>
     <color name="md_theme_surfaceContainerHigh_highContrast">#D1D5D9</color>
     <color name="md_theme_surfaceContainerHighest_highContrast">#C3C7CB</color>
+    <color name="md_theme_inverseSurface_dark">#E0E0E0</color> <!-- Fondo inverso en modo oscuro -->
+    <color name="md_theme_inverseOnSurface_dark">#121212</color> <!-- Texto sobre fondo inverso -->
+    <color name="md_theme_inversePrimary_dark">#80D8FF</color> <!-- Color primario invertido -->
+
 </resources>

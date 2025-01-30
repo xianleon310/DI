@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="md_theme_background_dark" tools:ignore="MissingDefaultResource">#121212</color>
+    <color name="md_theme_onBackground_dark" tools:ignore="MissingDefaultResource">#E0E0E0</color>
+    <color name="md_theme_surface_dark" tools:ignore="MissingDefaultResource">#1E1E1E</color>
+    <color name="md_theme_onSurface_dark" tools:ignore="MissingDefaultResource">#E0E0E0</color>
+    <color name="md_theme_surfaceVariant_dark" tools:ignore="MissingDefaultResource">#2C2C2C</color>
+    <color name="md_theme_onSurfaceVariant_dark" tools:ignore="MissingDefaultResource">#BDBDBD</color>
+    <color name="md_theme_outline_dark" tools:ignore="MissingDefaultResource">#757575</color>
+    <color name="md_theme_outlineVariant_dark" tools:ignore="MissingDefaultResource">#424242</color>
+    <color name="md_theme_inverseSurface_dark">#E0E0E0</color>
+    <color name="md_theme_inverseOnSurface_dark">#121212</color>
+    <color name="md_theme_inversePrimary_dark">#80D8FF</color>
+</resources>

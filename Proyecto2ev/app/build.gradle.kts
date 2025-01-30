@@ -45,6 +45,8 @@ android {
 }
 
 dependencies {
+    implementation (libs.material3)
+    implementation (libs.material.v1120)
     implementation (libs.androidx.lifecycle.extensions)
     implementation (libs.androidx.lifecycle.livedata.ktx)
     implementation (libs.androidx.lifecycle.viewmodel.ktx)
