@@ -74,6 +74,9 @@ public class DashboardActivity extends AppCompatActivity implements GameAdapter.
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
+
+            // Recrear la actividad para aplicar el cambio
+            recreate();
         });
     }
 
