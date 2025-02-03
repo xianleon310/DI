@@ -19,18 +19,13 @@ public class DashboardActivity extends AppCompatActivity implements GameAdapter.
     private GameViewModel viewModel;
     private GameAdapter adapter;
     private Switch darkModeSwitch;
+    private static final String THEME_PREFS = "ThemePrefs";
+    private static final String IS_DARK_MODE = "isDarkMode";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Obtener preferencia de Dark Mode antes de cargar la vista
-        SharedPreferences sharedPref = getSharedPreferences("AppConfig", MODE_PRIVATE);
-        boolean darkMode = sharedPref.getBoolean("darkMode", false);
-
-        if (darkMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
+        // Aplicar tema antes de crear la actividad
+        applyTheme();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
@@ -61,23 +56,36 @@ public class DashboardActivity extends AppCompatActivity implements GameAdapter.
             startActivity(new Intent(this, FavouritesActivity.class));
         });
 
-        // Configurar Switch para Dark Mode
+        // Inicializar el switch con el valor actual
         darkModeSwitch = findViewById(R.id.darkModeSwitch);
-        darkModeSwitch.setChecked(darkMode);
+        SharedPreferences prefs = getSharedPreferences(THEME_PREFS, MODE_PRIVATE);
+        boolean isDarkMode = prefs.getBoolean(IS_DARK_MODE, false);
+        darkModeSwitch.setChecked(isDarkMode);
 
+        // Configurar el listener del switch
         darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putBoolean("darkMode", isChecked);
+            SharedPreferences.Editor editor = getSharedPreferences(THEME_PREFS, MODE_PRIVATE).edit();
+            editor.putBoolean(IS_DARK_MODE, isChecked);
             editor.apply();
 
-            // Cambia el tema y recarga la actividad
+            // Aplicar el cambio de tema
             if (isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
-            recreate(); // Recargar la actividad para aplicar el cambio de tema
         });
+    }
+
+    private void applyTheme() {
+        SharedPreferences prefs = getSharedPreferences(THEME_PREFS, MODE_PRIVATE);
+        boolean isDarkMode = prefs.getBoolean(IS_DARK_MODE, false);
+
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     @Override

@@ -45,10 +45,12 @@ public class GameViewModel extends ViewModel {
     }
 
     public void addToFavorites(String gameId) {
+        isFavorite.postValue(true);
         userRepository.addToFavorites(gameId);
     }
 
     public void removeFromFavorites(String gameId) {
+        isFavorite.postValue(false);
         userRepository.removeFromFavorites(gameId);
     }
 
