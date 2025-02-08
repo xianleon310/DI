@@ -1,5 +1,6 @@
 package com.example.firebase2ev.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.example.firebase2ev.R;
+import com.example.firebase2ev.models.Game;
 import com.example.firebase2ev.viewmodels.GameViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -43,6 +45,14 @@ public class DetailFragment extends Fragment {
         toolbar.setNavigationOnClickListener(v ->
                 requireActivity().getSupportFragmentManager().popBackStack()
         );
+        toolbar.inflateMenu(R.menu.detail_menu);
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_share) {
+                shareGame();
+                return true;
+            }
+            return false;
+        });
 
         // Obtener el ID del juego de los argumentos
         if (getArguments() != null) {
@@ -92,6 +102,17 @@ public class DetailFragment extends Fragment {
                 viewModel.addToFavorites(currentGameId);
             }
         });
+    }
+
+    private void shareGame() {
+        Game game = viewModel.getSelectedGame().getValue();
+        if (game != null) {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                    "¡Mira este juego! " + game.getName() + "\n" + game.getDesc());
+            startActivity(Intent.createChooser(shareIntent, "Compartir juego"));
+        }
     }
 
     public static DetailFragment newInstance(String gameId) {
