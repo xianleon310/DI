@@ -3,10 +3,9 @@ package com.example.firebase2ev.fragments;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,11 +22,12 @@ import com.example.firebase2ev.repositories.UserRepository;
 import com.example.firebase2ev.viewmodels.GameViewModel;
 import com.example.firebase2ev.views.DashboardActivity;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class DashboardFragment extends Fragment implements GameAdapter.OnGameClickListener {
     private GameViewModel viewModel;
     private GameAdapter adapter;
-    private Switch darkModeSwitch;
+    private boolean isDarkMode;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -38,6 +38,18 @@ public class DashboardFragment extends Fragment implements GameAdapter.OnGameCli
 
         // Configurar toolbar
         MaterialToolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.action_favorites) {
+                ((DashboardActivity) requireActivity()).navigateToFavourites();
+                return true;
+            } else if (id == R.id.action_logout) {
+                new UserRepository().logout();
+                ((DashboardActivity) requireActivity()).logout();
+                return true;
+            }
+            return false;
+        });
 
         // Configurar RecyclerView
         RecyclerView recyclerView = view.findViewById(R.id.gamesRecyclerView);
@@ -45,30 +57,18 @@ public class DashboardFragment extends Fragment implements GameAdapter.OnGameCli
         adapter = new GameAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        // Configurar botones
-        Button logoutButton = view.findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(v -> {
-            new UserRepository().logout();
-            ((DashboardActivity) requireActivity()).logout();
-        });
-
-        Button favoritesButton = view.findViewById(R.id.favoritesButton);
-        favoritesButton.setOnClickListener(v ->
-                ((DashboardActivity) requireActivity()).navigateToFavourites()
-        );
-
-        // Configurar switch de tema oscuro
-        darkModeSwitch = view.findViewById(R.id.darkModeSwitch);
+        // Configurar FAB para modo oscuro
+        FloatingActionButton darkModeFab = view.findViewById(R.id.darkModeFab);
         SharedPreferences prefs = requireActivity().getSharedPreferences("ThemePrefs", requireActivity().MODE_PRIVATE);
-        boolean isDarkMode = prefs.getBoolean("isDarkMode", false);
-        darkModeSwitch.setChecked(isDarkMode);
+        isDarkMode = prefs.getBoolean("isDarkMode", false);
 
-        darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        darkModeFab.setOnClickListener(v -> {
+            isDarkMode = !isDarkMode;
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("isDarkMode", isChecked);
+            editor.putBoolean("isDarkMode", isDarkMode);
             editor.apply();
 
-            if (isChecked) {
+            if (isDarkMode) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);

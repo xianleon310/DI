@@ -15,18 +15,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:title="Dashboard"
-            app:titleTextColor="?attr/colorOnPrimary">
-
-            <Switch
-                android:id="@+id/darkModeSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
-                android:text="Modo Oscuro"
-                android:textColor="?attr/colorOnPrimary"/>
-
-        </com.google.android.material.appbar.MaterialToolbar>
+            app:titleTextColor="?attr/colorOnPrimary"
+            app:menu="@menu/dashboard_menu"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -35,32 +25,21 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <Button
-            android:id="@+id/logoutButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:layout_margin="16dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <Button
-            android:id="@+id/favoritesButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Favorites"
-            android:layout_margin="16dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/gamesRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:padding="16dp"
-            app:layout_constraintTop_toBottomOf="@id/logoutButton"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_height="match_parent"
+            android:padding="16dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/darkModeFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_dark_mode"
+        android:contentDescription="Cambiar tema"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
