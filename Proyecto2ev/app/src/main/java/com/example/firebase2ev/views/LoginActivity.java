@@ -3,19 +3,21 @@ package com.example.firebase2ev.views;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.EditText;
 import android.widget.Toast;
-
-import com.example.firebase2ev.R;
-import com.example.firebase2ev.viewmodels.LoginViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.firebase2ev.R;
+import com.example.firebase2ev.viewmodels.LoginViewModel;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.appbar.MaterialToolbar;
+
 public class LoginActivity extends AppCompatActivity {
     private LoginViewModel viewModel;
-    private EditText emailEdit, passwordEdit;
+    private TextInputEditText emailEdit, passwordEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +35,17 @@ public class LoginActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         emailEdit = findViewById(R.id.emailEditText);
         passwordEdit = findViewById(R.id.passwordEditText);
 
-        findViewById(R.id.loginButton).setOnClickListener(v -> login());
-        findViewById(R.id.registerButton).setOnClickListener(v -> startActivity(new Intent(this, RegisterActivity.class)));
+        MaterialButton loginButton = findViewById(R.id.loginButton);
+        MaterialButton registerButton = findViewById(R.id.registerButton);
+
+        loginButton.setOnClickListener(v -> login());
+        registerButton.setOnClickListener(v -> startActivity(new Intent(this, RegisterActivity.class)));
 
         viewModel.getErrorMessage().observe(this, error ->
                 Toast.makeText(this, error, Toast.LENGTH_SHORT).show());
@@ -51,9 +59,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        viewModel.login(
-                emailEdit.getText().toString(),
-                passwordEdit.getText().toString()
-        );
+        String email = emailEdit.getText() != null ? emailEdit.getText().toString() : "";
+        String password = passwordEdit.getText() != null ? passwordEdit.getText().toString() : "";
+        viewModel.login(email, password);
     }
 }
