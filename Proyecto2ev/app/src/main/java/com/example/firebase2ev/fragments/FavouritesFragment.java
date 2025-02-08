@@ -1,6 +1,5 @@
 package com.example.firebase2ev.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,7 @@ import com.example.firebase2ev.adapters.GameAdapter;
 import com.example.firebase2ev.models.Game;
 import com.example.firebase2ev.viewmodels.GameViewModel;
 import com.example.firebase2ev.views.DashboardActivity;
-import com.example.firebase2ev.views.DetailActivity;
+import com.google.android.material.appbar.MaterialToolbar;
 
 public class FavouritesFragment extends Fragment implements GameAdapter.OnGameClickListener {
     private GameViewModel viewModel;
@@ -31,6 +30,12 @@ public class FavouritesFragment extends Fragment implements GameAdapter.OnGameCl
 
         // Inicializar ViewModel
         viewModel = new ViewModelProvider(this).get(GameViewModel.class);
+
+        // Configurar toolbar
+        MaterialToolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(v ->
+                requireActivity().getSupportFragmentManager().popBackStack()
+        );
 
         // Configurar RecyclerView
         RecyclerView recyclerView = view.findViewById(R.id.favouritesRecyclerView);
