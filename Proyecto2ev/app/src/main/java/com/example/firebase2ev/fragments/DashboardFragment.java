@@ -22,6 +22,7 @@ import com.example.firebase2ev.adapters.GameAdapter;
 import com.example.firebase2ev.models.Game;
 import com.example.firebase2ev.repositories.UserRepository;
 import com.example.firebase2ev.viewmodels.GameViewModel;
+import com.example.firebase2ev.views.DashboardActivity;
 import com.example.firebase2ev.views.DetailActivity;
 import com.example.firebase2ev.views.FavouritesActivity;
 import com.example.firebase2ev.views.LoginActivity;
@@ -48,15 +49,12 @@ public class DashboardFragment extends Fragment implements GameAdapter.OnGameCli
         Button logoutButton = view.findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(v -> {
             new UserRepository().logout();
-            startActivity(new Intent(getActivity(), LoginActivity.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
-            getActivity().finish();
+            ((DashboardActivity) requireActivity()).logout();
         });
 
         Button favoritesButton = view.findViewById(R.id.favoritesButton);
         favoritesButton.setOnClickListener(v -> {
-            // Aquí cambiaremos esto para usar Fragment Transaction más adelante
-            startActivity(new Intent(getActivity(), FavouritesActivity.class));
+            ((DashboardActivity) requireActivity()).navigateToFavourites();
         });
 
         // Configurar switch de tema oscuro
@@ -94,9 +92,6 @@ public class DashboardFragment extends Fragment implements GameAdapter.OnGameCli
 
     @Override
     public void onGameClick(Game game) {
-        // Aquí cambiaremos esto para usar Fragment Transaction más adelante
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra("videojuego_", game.getId());
-        startActivity(intent);
+        ((DashboardActivity) requireActivity()).navigateToDetail(game);
     }
 }

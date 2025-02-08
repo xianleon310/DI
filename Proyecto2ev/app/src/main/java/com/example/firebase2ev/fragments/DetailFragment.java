@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.example.firebase2ev.R;
 import com.example.firebase2ev.viewmodels.GameViewModel;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class DetailFragment extends Fragment {
@@ -37,6 +38,12 @@ public class DetailFragment extends Fragment {
         descText = view.findViewById(R.id.desc1);
         favoriteFab = view.findViewById(R.id.favoriteFab);
 
+        // Configurar toolbar
+        MaterialToolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(v ->
+                requireActivity().getSupportFragmentManager().popBackStack()
+        );
+
         // Obtener el ID del juego de los argumentos
         if (getArguments() != null) {
             currentGameId = getArguments().getString("videojuego_");
@@ -58,6 +65,11 @@ public class DetailFragment extends Fragment {
             titleText.setText(game.getName());
             descText.setText(game.getDesc());
             imageView.setContentDescription("Imagen detallada del juego " + game.getName());
+
+            // También actualizamos el título de la toolbar
+            MaterialToolbar toolbar = view.findViewById(R.id.toolbar);
+            toolbar.setTitle(game.getName());
+
             Glide.with(this)
                     .load(game.getUrl())
                     .fitCenter()

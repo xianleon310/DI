@@ -17,6 +17,7 @@ import com.example.firebase2ev.R;
 import com.example.firebase2ev.adapters.GameAdapter;
 import com.example.firebase2ev.models.Game;
 import com.example.firebase2ev.viewmodels.GameViewModel;
+import com.example.firebase2ev.views.DashboardActivity;
 import com.example.firebase2ev.views.DetailActivity;
 
 public class FavouritesFragment extends Fragment implements GameAdapter.OnGameClickListener {
@@ -52,9 +53,6 @@ public class FavouritesFragment extends Fragment implements GameAdapter.OnGameCl
 
     @Override
     public void onGameClick(Game game) {
-        // Aquí cambiaremos esto para usar Fragment Transaction más adelante
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra("videojuego_", game.getId());
-        startActivity(intent);
+        ((DashboardActivity) requireActivity()).navigateToDetail(game);
     }
 }
