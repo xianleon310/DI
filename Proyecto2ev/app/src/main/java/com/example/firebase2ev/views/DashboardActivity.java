@@ -20,32 +20,49 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        // Cargar DashboardFragment como fragment inicial si no hay estado guardado
         if (savedInstanceState == null) {
-            loadFragment(new DashboardFragment());
+            loadFragment(new DashboardFragment(), false);
         }
     }
 
-    public void loadFragment(Fragment fragment) {
-        getSupportFragmentManager()
+    public void loadFragment(Fragment fragment, boolean addToBackStack) {
+        FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragmentContainer, fragment)
-                .addToBackStack(null)
-                .commit();
+                .setCustomAnimations(
+                        R.anim.slide_in_right,
+                        R.anim.slide_out_left,
+                        android.R.anim.slide_in_left,
+                        android.R.anim.slide_out_right
+                )
+                .replace(R.id.fragmentContainer, fragment);
+
+        if (addToBackStack) {
+            transaction.addToBackStack(null);
+        }
+
+        transaction.commit();
     }
 
     public void navigateToDetail(Game game) {
-        DetailFragment detailFragment = DetailFragment.newInstance(game.getId());
-        loadFragment(detailFragment);
+        loadFragment(DetailFragment.newInstance(game.getId()), true);
     }
 
     public void navigateToFavourites() {
-        loadFragment(new FavouritesFragment());
+        loadFragment(new FavouritesFragment(), true);
     }
 
     public void logout() {
         startActivity(new Intent(this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
