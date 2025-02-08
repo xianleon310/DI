@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.firebase2ev.R;
+import com.example.firebase2ev.utils.ButtonAnimationUtils;
 import com.example.firebase2ev.viewmodels.RegisterViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
@@ -17,6 +18,7 @@ public class RegisterActivity extends AppCompatActivity {
     private RegisterViewModel viewModel;
     private TextInputEditText fullNameEdit, emailEdit, passwordEdit, confirmPasswordEdit,
             phoneEdit, addressEdit;
+    private MaterialButton registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +35,10 @@ public class RegisterActivity extends AppCompatActivity {
         initializeViews();
         setupObservers();
 
-        MaterialButton registerButton = findViewById(R.id.registerButton);
-        registerButton.setOnClickListener(v -> registerUser());
+        registerButton = findViewById(R.id.registerButton);
+        registerButton.setOnClickListener(v -> {
+            ButtonAnimationUtils.animateButton((MaterialButton) v, this::registerUser);
+        });
     }
 
     private void initializeViews() {

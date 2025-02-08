@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.firebase2ev.R;
+import com.example.firebase2ev.utils.ButtonAnimationUtils;
 import com.example.firebase2ev.viewmodels.LoginViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -18,6 +19,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 public class LoginActivity extends AppCompatActivity {
     private LoginViewModel viewModel;
     private TextInputEditText emailEdit, passwordEdit;
+    private MaterialButton loginButton, registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +42,17 @@ public class LoginActivity extends AppCompatActivity {
 
         emailEdit = findViewById(R.id.emailEditText);
         passwordEdit = findViewById(R.id.passwordEditText);
+        loginButton = findViewById(R.id.loginButton);
+        registerButton = findViewById(R.id.registerButton);
 
-        MaterialButton loginButton = findViewById(R.id.loginButton);
-        MaterialButton registerButton = findViewById(R.id.registerButton);
+        loginButton.setOnClickListener(v -> {
+            ButtonAnimationUtils.animateButton((MaterialButton) v, this::login);
+        });
 
-        loginButton.setOnClickListener(v -> login());
-        registerButton.setOnClickListener(v -> startActivity(new Intent(this, RegisterActivity.class)));
+        registerButton.setOnClickListener(v -> {
+            ButtonAnimationUtils.animateButton((MaterialButton) v, () ->
+                    startActivity(new Intent(this, RegisterActivity.class)));
+        });
 
         viewModel.getErrorMessage().observe(this, error ->
                 Toast.makeText(this, error, Toast.LENGTH_SHORT).show());
