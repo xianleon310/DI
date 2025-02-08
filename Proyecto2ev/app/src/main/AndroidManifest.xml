@@ -8,6 +8,15 @@
         android:label="Firebase2EV"
         android:theme="@style/Theme.Firebase2EV">
         <activity
+            android:name=".views.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Firebase2EV">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".views.FavouritesActivity"
             android:exported="false" />
         <activity
@@ -15,15 +24,9 @@
             android:exported="false" />
         <activity
             android:name=".views.LoginActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="Login"
-            android:theme="@style/Theme.Firebase2EV">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/Theme.Firebase2EV" />
         <activity
             android:name=".views.RegisterActivity"
             android:exported="false"
