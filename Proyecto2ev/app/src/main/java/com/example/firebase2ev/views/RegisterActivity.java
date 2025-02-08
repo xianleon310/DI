@@ -2,7 +2,6 @@ package com.example.firebase2ev.views;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,10 +9,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.firebase2ev.R;
 import com.example.firebase2ev.viewmodels.RegisterViewModel;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class RegisterActivity extends AppCompatActivity {
     private RegisterViewModel viewModel;
-    private EditText fullNameEdit, emailEdit, passwordEdit, confirmPasswordEdit, phoneEdit, addressEdit;
+    private TextInputEditText fullNameEdit, emailEdit, passwordEdit, confirmPasswordEdit,
+            phoneEdit, addressEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,11 +24,17 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         viewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
+
+        // Configurar toolbar
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
         initializeViews();
         setupObservers();
 
-
-        findViewById(R.id.registerButton).setOnClickListener(v -> registerUser());
+        MaterialButton registerButton = findViewById(R.id.registerButton);
+        registerButton.setOnClickListener(v -> registerUser());
     }
 
     private void initializeViews() {
@@ -43,20 +52,22 @@ public class RegisterActivity extends AppCompatActivity {
 
         viewModel.getIsRegistered().observe(this, isRegistered -> {
             if (isRegistered) {
-                startActivity(new Intent(this, DashboardActivity.class));
+                startActivity(new Intent(this, DashboardActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                 finish();
             }
         });
     }
 
     private void registerUser() {
-        viewModel.register(
-                fullNameEdit.getText().toString(),
-                emailEdit.getText().toString(),
-                passwordEdit.getText().toString(),
-                confirmPasswordEdit.getText().toString(),
-                phoneEdit.getText().toString(),
-                addressEdit.getText().toString()
-        );
+        String fullName = fullNameEdit.getText() != null ? fullNameEdit.getText().toString() : "";
+        String email = emailEdit.getText() != null ? emailEdit.getText().toString() : "";
+        String password = passwordEdit.getText() != null ? passwordEdit.getText().toString() : "";
+        String confirmPassword = confirmPasswordEdit.getText() != null ?
+                confirmPasswordEdit.getText().toString() : "";
+        String phone = phoneEdit.getText() != null ? phoneEdit.getText().toString() : "";
+        String address = addressEdit.getText() != null ? addressEdit.getText().toString() : "";
+
+        viewModel.register(fullName, email, password, confirmPassword, phone, address);
     }
 }
