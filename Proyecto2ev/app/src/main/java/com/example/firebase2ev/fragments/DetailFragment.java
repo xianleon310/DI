@@ -122,4 +122,5 @@ public class DetailFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
 }

@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">FireBase2ev</string>
+    <string name="logout">Cerrar Sesión</string>
+    <string name="favorites">Favoritos</string>
+    <string name="profile">Perfil</string>
+    <string name="change_password">Cambiar Contraseña</string>
+    <string name="dark_mode">Modo Oscuro</string>
+
+
+    <string name="app_name">Firebase2EV</string>
+
+    <!-- Strings para perfil y cambio de contraseña -->
+    <string name="current_password">Contraseña actual</string>
+    <string name="new_password">Nueva contraseña</string>
+
+    <!-- Mensajes de respuesta -->
+    <string name="all_fields_required">Todos los campos son obligatorios</string>
+    <string name="password_updated">Contraseña actualizada correctamente</string>
+    <string name="password_update_error">Error al actualizar la contraseña</string>
+    <string name="current_password_error">La contraseña actual no es correcta</string>
 </resources>

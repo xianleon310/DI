@@ -15,8 +15,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:title="Dashboard"
-            app:titleTextColor="?attr/colorOnPrimary"
-            app:menu="@menu/dashboard_menu"/>
+            app:titleTextColor="?attr/colorOnPrimary"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

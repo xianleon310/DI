@@ -5,8 +5,11 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Firebase2EV"
+        android:label="@string/app_name"
         android:theme="@style/Theme.Firebase2EV">
+        <activity
+            android:name=".views.MainActivity"
+            android:exported="false" />
         <activity
             android:name=".views.SplashActivity"
             android:exported="true"
@@ -18,25 +21,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.FavouritesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".views.DetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".views.LoginActivity"
-            android:exported="false"
-            android:label="Login"
-            android:theme="@style/Theme.Firebase2EV" />
+            android:exported="false" />
         <activity
             android:name=".views.RegisterActivity"
-            android:exported="false"
-            android:label="Register"
-            android:parentActivityName=".views.LoginActivity" />
+            android:exported="false" />
         <activity
             android:name=".views.DashboardActivity"
-            android:exported="false"
-            android:label="Dashboard" />
+            android:exported="false" />
     </application>
 
 </manifest>

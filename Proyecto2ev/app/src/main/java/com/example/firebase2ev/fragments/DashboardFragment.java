@@ -3,7 +3,6 @@ package com.example.firebase2ev.fragments;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -38,44 +37,31 @@ public class DashboardFragment extends Fragment implements GameAdapter.OnGameCli
 
         // Configurar toolbar
         MaterialToolbar toolbar = view.findViewById(R.id.toolbar);
+
+        // Inflar el menú programáticamente
+        toolbar.inflateMenu(R.menu.dashboard_menu);
+
         toolbar.setOnMenuItemClickListener(item -> {
             int id = item.getItemId();
             if (id == R.id.action_favorites) {
                 ((DashboardActivity) requireActivity()).navigateToFavourites();
                 return true;
+            } else if (id == R.id.action_profile) {
+                ((DashboardActivity) requireActivity()).navigateToProfile();
+                return true;
             } else if (id == R.id.action_logout) {
-                new UserRepository().logout();
                 ((DashboardActivity) requireActivity()).logout();
                 return true;
             }
             return false;
         });
 
+
         // Configurar RecyclerView
         RecyclerView recyclerView = view.findViewById(R.id.gamesRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new GameAdapter(this);
         recyclerView.setAdapter(adapter);
-
-        // Configurar FAB para modo oscuro
-        FloatingActionButton darkModeFab = view.findViewById(R.id.darkModeFab);
-        SharedPreferences prefs = requireActivity().getSharedPreferences("ThemePrefs", requireActivity().MODE_PRIVATE);
-        isDarkMode = prefs.getBoolean("isDarkMode", false);
-
-        darkModeFab.setOnClickListener(v -> {
-            isDarkMode = !isDarkMode;
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("isDarkMode", isDarkMode);
-            editor.apply();
-
-            if (isDarkMode) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            }
-
-            requireActivity().recreate();
-        });
 
         return view;
     }
@@ -93,4 +79,5 @@ public class DashboardFragment extends Fragment implements GameAdapter.OnGameCli
     public void onGameClick(Game game) {
         ((DashboardActivity) requireActivity()).navigateToDetail(game);
     }
+
 }
