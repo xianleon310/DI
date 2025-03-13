@@ -1,5 +1,8 @@
 package com.example.firebase2ev.viewmodels;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -22,14 +25,22 @@ public class LoginViewModel extends ViewModel {
         return isLoggedIn;
     }
 
-    public void login(String email, String password) {
+    public void login(String email, String password, Context context) {
         if (email.isEmpty() || password.isEmpty()) {
             errorMessage.setValue("Todos los campos son obligatorios");
             return;
         }
 
         repository.loginUser(email, password)
-                .addOnSuccessListener(authResult -> isLoggedIn.setValue(true))
+                .addOnSuccessListener(authResult -> {
+                    // Guardar UID en SharedPreferences
+                    SharedPreferences sharedPref = context.getSharedPreferences("AppConfig", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("userId", authResult.getUser().getUid());
+                    editor.apply();
+
+                    isLoggedIn.setValue(true);
+                })
                 .addOnFailureListener(e -> errorMessage.setValue(e.getMessage()));
     }
 }

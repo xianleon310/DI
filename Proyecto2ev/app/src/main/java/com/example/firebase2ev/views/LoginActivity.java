@@ -68,6 +68,6 @@ public class LoginActivity extends AppCompatActivity {
     private void login() {
         String email = emailEdit.getText() != null ? emailEdit.getText().toString() : "";
         String password = passwordEdit.getText() != null ? passwordEdit.getText().toString() : "";
-        viewModel.login(email, password);
+        viewModel.login(email, password,this);
     }
 }
