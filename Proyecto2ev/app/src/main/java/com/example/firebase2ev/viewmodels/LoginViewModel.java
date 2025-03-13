@@ -2,6 +2,7 @@ package com.example.firebase2ev.viewmodels;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -38,7 +39,8 @@ public class LoginViewModel extends ViewModel {
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString("userId", authResult.getUser().getUid());
                     editor.apply();
-
+                    Toast.makeText(context, "Usuario guardado en SharedPreferences: " +
+                            authResult.getUser().getUid(), Toast.LENGTH_LONG).show();
                     isLoggedIn.setValue(true);
                 })
                 .addOnFailureListener(e -> errorMessage.setValue(e.getMessage()));
