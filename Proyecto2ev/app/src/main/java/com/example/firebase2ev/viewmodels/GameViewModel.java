@@ -17,11 +17,50 @@ public class GameViewModel extends ViewModel {
     private LiveData<List<Game>> games;
     private UserRepository userRepository;
     private MutableLiveData<Boolean> isFavorite = new MutableLiveData<>();
-
+    private LiveData<List<Game>> nonFavoriteGames = new MutableLiveData<>();
     public GameViewModel() {
         repository = new GameRepository();
         userRepository = new UserRepository();
         games = repository.getAllGames();
+        nonFavoriteGames=new MutableLiveData<>(new ArrayList<>());
+        games.observeForever(gameList ->{
+            updateNonFavoriteGames();
+        });
+    }
+    public LiveData<List<Game>> getNonFavoriteGames() {
+        if (nonFavoriteGames == null) {
+            nonFavoriteGames = new MutableLiveData<>(new ArrayList<>());
+            updateNonFavoriteGames();
+        }
+
+
+        return nonFavoriteGames;
+    }
+    private void updateNonFavoriteGames() {
+        games.observeForever(allGames -> {
+            // Obtener favoritos y filtrar
+            userRepository.getFavoriteGames().observeForever(favoriteIds -> {
+                if (allGames == null) {
+                    ((MutableLiveData<List<Game>>) nonFavoriteGames).setValue(new ArrayList<>());
+                    return;
+                }
+
+                // Si no hay favoritos, mostrar todos los juegos
+                if (favoriteIds == null || favoriteIds.isEmpty()) {
+                    ((MutableLiveData<List<Game>>) nonFavoriteGames).setValue(allGames);
+                    return;
+                }
+
+                // Filtrar para obtener solo juegos no favoritos
+                List<Game> filteredGames = new ArrayList<>();
+                for (Game game : allGames) {
+                    if (!favoriteIds.contains(game.getId())) {
+                        filteredGames.add(game);
+                    }
+                }
+                ((MutableLiveData<List<Game>>) nonFavoriteGames).setValue(filteredGames);
+            });
+        });
     }
 
     public LiveData<List<Game>> getGames() {

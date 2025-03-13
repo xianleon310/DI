@@ -23,6 +23,8 @@ import com.example.firebase2ev.views.DashboardActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 public class DashboardFragment extends Fragment implements GameAdapter.OnGameClickListener {
     private GameViewModel viewModel;
     private GameAdapter adapter;
@@ -70,8 +72,13 @@ public class DashboardFragment extends Fragment implements GameAdapter.OnGameCli
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel.getGames().observe(getViewLifecycleOwner(), games -> {
-            adapter.setGames(games);
+        viewModel.getNonFavoriteGames().observe(getViewLifecycleOwner(), games -> {
+            if (games != null) {
+                adapter.setGames(games);
+            } else {
+                adapter.setGames(new ArrayList<>());
+            }
+
         });
     }
 
