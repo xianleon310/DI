@@ -72,6 +72,6 @@ public class RegisterActivity extends AppCompatActivity {
         String phone = phoneEdit.getText() != null ? phoneEdit.getText().toString() : "";
         String address = addressEdit.getText() != null ? addressEdit.getText().toString() : "";
 
-        viewModel.register(fullName, email, password, confirmPassword, phone, address);
+        viewModel.register(fullName, email, password, confirmPassword, phone, address,this);
     }
 }
