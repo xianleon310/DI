@@ -1,5 +1,7 @@
 package com.example.firebase2ev.repositories;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -59,8 +61,10 @@ public class UserRepository {
         return mAuth.signInWithEmailAndPassword(email, password);
     }
 
-    public void logout() {
+    public void logout(Context context) {
         mAuth.signOut();
+        SharedPreferences sharedPref = context.getSharedPreferences("AppConfig", Context.MODE_PRIVATE);
+        sharedPref.edit().remove("userId").apply();
     }
 
     // Método para añadir a favoritos

@@ -58,7 +58,7 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void logout() {
-        new UserRepository().logout();
+        new UserRepository().logout(this);
         startActivity(new Intent(this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
