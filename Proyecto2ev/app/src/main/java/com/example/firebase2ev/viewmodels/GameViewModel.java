@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.firebase2ev.models.Game;
 import com.example.firebase2ev.repositories.GameRepository;
 import com.example.firebase2ev.repositories.UserRepository;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,9 @@ public class GameViewModel extends ViewModel {
 
 
         return nonFavoriteGames;
+    }
+    public Task<Void> clearAllFavorites() {
+        return userRepository.clearAllFavorites();
     }
     private void updateNonFavoriteGames() {
         games.observeForever(allGames -> {

@@ -33,6 +33,13 @@ public class UserRepository {
         this.mAuth = mAuth;
         this.database = database;
     }
+    public Task<Void> clearAllFavorites() {
+        String userId = mAuth.getCurrentUser().getUid();
+        return database.child("users")
+                .child(userId)
+                .child("favoritos")
+                .removeValue();
+    }
 
     public Task<AuthResult> registerUser(String fullName, String email, String password, String phone, String address) {
         return mAuth.createUserWithEmailAndPassword(email, password)

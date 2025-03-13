@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,12 +55,12 @@ public class DashboardFragment extends Fragment implements GameAdapter.OnGameCli
             } else if (id == R.id.action_logout) {
                 ((DashboardActivity) requireActivity()).logout();
                 return true;
+            }else if (id==R.id.action_clear_favorites){
+                clearAllFavorites();
+                return true;
             }
             return false;
         });
-
-
-        // Configurar RecyclerView
         RecyclerView recyclerView = view.findViewById(R.id.gamesRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new GameAdapter(this);
@@ -67,7 +68,17 @@ public class DashboardFragment extends Fragment implements GameAdapter.OnGameCli
 
         return view;
     }
-
+    private void clearAllFavorites() {
+        viewModel.clearAllFavorites().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Mostrar mensaje de éxito
+                Toast.makeText(getContext(), "Favoritos eliminados correctamente", Toast.LENGTH_SHORT).show();
+            } else {
+                // Mostrar mensaje de error
+                Toast.makeText(getContext(), "Error al eliminar favoritos", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
