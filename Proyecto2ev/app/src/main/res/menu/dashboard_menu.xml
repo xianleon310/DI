@@ -12,6 +12,10 @@
         android:title="@string/profile"
         app:showAsAction="ifRoom"/>
     <item
+        android:id="@+id/action_clear_favorites"
+        android:title="Limpiar Favoritos"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_logout"
         android:icon="@drawable/ic_logout"
         android:title="@string/logout"
