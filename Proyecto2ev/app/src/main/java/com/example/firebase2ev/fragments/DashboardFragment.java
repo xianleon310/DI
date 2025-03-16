@@ -68,6 +68,21 @@ public class DashboardFragment extends Fragment implements GameAdapter.OnGameCli
 
         return view;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel.getNonFavoriteGames().observe(getViewLifecycleOwner(), games -> {
+            adapter.setGames(games);
+
+        });
+    }
+
+    @Override
+    public void onGameClick(Game game) {
+        ((DashboardActivity) requireActivity()).navigateToDetail(game);
+    }
+
     private void clearAllFavorites() {
         viewModel.clearAllFavorites().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -78,24 +93,6 @@ public class DashboardFragment extends Fragment implements GameAdapter.OnGameCli
                 Toast.makeText(getContext(), "Error al eliminar favoritos", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        viewModel.getNonFavoriteGames().observe(getViewLifecycleOwner(), games -> {
-            if (games != null) {
-                adapter.setGames(games);
-            } else {
-                adapter.setGames(new ArrayList<>());
-            }
-
-        });
-    }
-
-    @Override
-    public void onGameClick(Game game) {
-        ((DashboardActivity) requireActivity()).navigateToDetail(game);
     }
 
 }

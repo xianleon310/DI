@@ -35,11 +35,9 @@ public class SplashActivity extends AppCompatActivity {
             // Verificar si hay un usuario almacenado en SharedPreferences
             SharedPreferences sharedPref = getSharedPreferences("AppConfig", MODE_PRIVATE);
             String userId = sharedPref.getString("userId", null);
-
-            FirebaseUser currentUser = mAuth.getCurrentUser();
             Intent intent;
 
-            if (currentUser != null || userId != null) {
+            if (userId != null) {
                 intent = new Intent(SplashActivity.this, DashboardActivity.class);
             } else {
                 intent = new Intent(SplashActivity.this, LoginActivity.class);

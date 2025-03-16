@@ -24,17 +24,18 @@ public class GameViewModel extends ViewModel {
         userRepository = new UserRepository();
         games = repository.getAllGames();
         nonFavoriteGames=new MutableLiveData<>(new ArrayList<>());
+        //ACTIVASE AO INICIAR E CANDO CAMBIA A LISTA DE XOGOS
         games.observeForever(gameList ->{
             updateNonFavoriteGames();
         });
     }
     public LiveData<List<Game>> getNonFavoriteGames() {
+        //SI NON SE CREOU BEN A LISTA DE "NON FAVORITOS", FÓRZASE A CREALA
         if (nonFavoriteGames == null) {
             nonFavoriteGames = new MutableLiveData<>(new ArrayList<>());
             updateNonFavoriteGames();
         }
-
-
+    //RETORNA LISTA DE NON FAVORITOS
         return nonFavoriteGames;
     }
     public Task<Void> clearAllFavorites() {
@@ -88,7 +89,9 @@ public class GameViewModel extends ViewModel {
     }
 
     public void addToFavorites(String gameId) {
+        //icono
         isFavorite.postValue(true);
+        //firebase
         userRepository.addToFavorites(gameId);
     }
 

@@ -42,31 +42,4 @@ public class GameRepository {
         return games;
     }
 
-
-    public LiveData<List<Game>> getNonFavoriteGames(List<String> favoriteIds) {
-        MutableLiveData<List<Game>> games = new MutableLiveData<>();
-
-        database.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                List<Game> gameList = new ArrayList<>();
-                for (DataSnapshot snapshot : task.getResult().getChildren()) {
-                    // Obtenemos el ID del juego
-                    String gameId = snapshot.getKey();
-
-                    // Verificamos si el juego NO está en favoritos
-                    if (!favoriteIds.contains(gameId)) {
-                        Game game = new Game(
-                                gameId,
-                                snapshot.child("name").getValue(String.class),
-                                snapshot.child("desc").getValue(String.class),
-                                snapshot.child("url").getValue(String.class)
-                        );
-                        gameList.add(game);
-                    }
-                }
-                games.setValue(gameList);
-            }
-        });
-        return games;
-    }
 }
